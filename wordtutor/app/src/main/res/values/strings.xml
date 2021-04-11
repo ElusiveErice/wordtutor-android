@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">wordtutor</string>
+    <string name="app_name">李茜背单词从来不怂</string>
+    <string name="button">按钮</string>
+    <string name="continue_learn">继续学习</string>
+    <string name="review">复习</string>
+    <string name="check_lexicon">查看词库</string>
+    <string name="start_learn">开始学习</string>
+    <string name="word">单词</string>
+    <string name="english">English</string>
+    <string name="chinese">中文</string>
+    <string name="answer">答案</string>
+    <string name="next">下一个</string>
+    <string name="add">添加</string>
+    <string name="import_in">导入</string>
+    <string name="lexicon_info">词库信息</string>
+    <string name="word_sum">单词总数</string>
+    <string name="default_zero">0</string>
+    <string name="word_learned">已经学习的单词</string>
 </resources>

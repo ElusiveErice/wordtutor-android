@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="simple_button">
+        <item name="qmui_borderWidth">0dp</item>
+        <item name="qmui_backgroundColor">@color/selector_text_1</item>
+        <item name="qmui_radius">4dp</item>
+    </style>
+
+    <style name="simple_button1" parent="simple_button">
+        <item name="android:paddingTop">30dp</item>
+        <item name="android:paddingBottom">30dp</item>
+        <item name="android:layout_margin">30dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:minEms">10</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="simple_button2" parent="simple_button">
+        <item name="android:padding">20dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:minEms">4</item>
+        <item name="android:textColor">@color/qmui_config_color_gray_1</item>
+    </style>
+
+    <style name="simple_button3" parent="simple_button">
+        <item name="android:padding">20dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:minEms">10</item>
+        <item name="android:textColor">@color/qmui_config_color_gray_1</item>
+        <item name="qmui_backgroundColor">@color/selector_text_2</item>
+    </style>
+</resources>

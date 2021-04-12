@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">李茜背单词从来不怂</string>
+    <string name="app_name">李茜爱背单词</string>
     <string name="button">按钮</string>
     <string name="continue_learn">继续学习</string>
     <string name="review">复习</string>
@@ -16,4 +16,7 @@
     <string name="word_sum">单词总数</string>
     <string name="default_zero">0</string>
     <string name="word_learned">已经学习的单词</string>
+    <string name="lexicon_manage">词库管理</string>
+    <string name="add_word">添加单词</string>
+    <string name="last">上一个</string>
 </resources>

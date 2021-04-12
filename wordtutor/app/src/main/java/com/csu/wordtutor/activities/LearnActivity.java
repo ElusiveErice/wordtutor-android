@@ -40,11 +40,7 @@ public class LearnActivity extends Activity {
 
         WordRoomDatabase db = WordRoomDatabase.getInstance(this);
         WordDao wordDao = db.getWordDao();
-        Log.i(TAG, "0");
-        Observable.create((ObservableOnSubscribe<List<Word>>) e -> {
-            e.onNext(wordDao.getAll());
-            e.onComplete();
-        })
+        Observable.create((ObservableOnSubscribe<List<Word>>) e -> e.onNext(wordDao.getAll()))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Word>>() {
@@ -57,14 +53,12 @@ public class LearnActivity extends Activity {
                     public void onNext(List<Word> words) {
                         if (words.isEmpty()) {
                             onHandleEmptyWord();
-                            Log.i(TAG, "1");
                         } else {
                             ActivityLearnBinding binding =
                                     DataBindingUtil.setContentView(LearnActivity.this, R.layout.activity_learn);
                             LearnViewModel learnViewModel =
                                     new LearnViewModel(LearnActivity.this, words);
                             binding.setViewModel(learnViewModel);
-                            Log.i(TAG, "2");
                         }
                     }
 

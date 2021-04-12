@@ -13,12 +13,12 @@ import com.csu.wordtutor.utils.FileUtils;
 import java.util.List;
 
 
-public class LexiconViewModel extends BaseObservable {
+public class LexiconManageViewModel extends BaseObservable {
 
     private static final String TAG = "LexiconViewModel";
     private List<Word> mWordList;
 
-    public LexiconViewModel(List<Word> wordList) {
+    public LexiconManageViewModel(List<Word> wordList) {
         mWordList = wordList;
     }
 

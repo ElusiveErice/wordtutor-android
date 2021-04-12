@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
@@ -16,7 +18,9 @@ import com.csu.wordtutor.model.Word;
 import com.csu.wordtutor.model.WordDao;
 import com.csu.wordtutor.model.WordRoomDatabase;
 import com.csu.wordtutor.utils.FileUtils;
-import com.csu.wordtutor.viewmodels.LexiconViewModel;
+import com.csu.wordtutor.utils.PermissionManage;
+import com.csu.wordtutor.viewmodels.LexiconManageViewModel;
+import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 
 import java.util.ArrayList;
@@ -32,10 +36,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LexiconManageActivity extends Activity {
 
+    private static final String TAG = "LexiconManageActivity";
     private static final int READ_REQUEST_CODE = 1;
 
     private WordDao mWordDao;
-    private LexiconViewModel mLexiconViewModel;
+    private LexiconManageViewModel mLexiconViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,12 +53,17 @@ public class LexiconManageActivity extends Activity {
 
         ActivityLexiconManageBinding binding =
                 DataBindingUtil.setContentView(LexiconManageActivity.this, R.layout.activity_lexicon_manage);
-        mLexiconViewModel = new LexiconViewModel(new ArrayList<>());
+        mLexiconViewModel = new LexiconManageViewModel(new ArrayList<>());
         binding.setViewModel(mLexiconViewModel);
 
         binding.btCheckLexicon.setOnClickListener(v -> onCheckClick());
         binding.btImportIn.setOnClickListener(v -> onImportInClick());
         binding.btAdd.setOnClickListener(v -> onAddInClick());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         update();
     }
 
@@ -81,6 +91,7 @@ public class LexiconManageActivity extends Activity {
 
                             @Override
                             public void onNext(String s) {
+                                Log.i(TAG, "导入成功");
                                 update();
                             }
 
@@ -91,7 +102,7 @@ public class LexiconManageActivity extends Activity {
 
                             @Override
                             public void onComplete() {
-
+                                Log.i(TAG, "导入完成");
                             }
                         });
             }
@@ -99,28 +110,27 @@ public class LexiconManageActivity extends Activity {
     }
 
     public void onCheckClick() {
-
+        Intent intent = new Intent(this, LexiconActivity.class);
+        startActivity(intent);
     }
 
     public void onImportInClick() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/vnd.ms-excel");
-        startActivityForResult(intent, READ_REQUEST_CODE);
+        if (PermissionManage.storePermission(this)) {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("application/vnd.ms-excel");
+            startActivityForResult(intent, READ_REQUEST_CODE);
+        }
     }
 
     public void onAddInClick() {
-        new QMUIDialog.MessageDialogBuilder(this)
-                .setTitle("添加新单词")
-                .addAction("取消", (dialog, index) -> dialog.dismiss())
-                .addAction("确定", (dialog, index) -> dialog.dismiss())
-                .show();
+        Intent intent = new Intent(this, AddWordActivity.class);
+        startActivity(intent);
     }
 
     public void update() {
-        Observable.create((ObservableOnSubscribe<List<Word>>) e -> {
-            e.onNext(mWordDao.getAll());
-        }).subscribeOn(Schedulers.newThread())
+        Observable.create((ObservableOnSubscribe<List<Word>>) e -> e.onNext(mWordDao.getAll()))
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Word>>() {
                     @Override

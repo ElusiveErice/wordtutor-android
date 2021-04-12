@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -27,6 +28,8 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 public final class FileUtils {
+
+    private static final String TAG = "FileUtils";
 
     public static String uriToFile(Uri uri, Context context) {
         String path = null;
@@ -89,7 +92,8 @@ public final class FileUtils {
         try {
             book = Workbook.getWorkbook(file);
         } catch (IOException | BiffException e) {
-            return null;
+            Log.e(TAG, e.getLocalizedMessage());
+            return wordList;
         }
 
         //获取第一个工作表对象

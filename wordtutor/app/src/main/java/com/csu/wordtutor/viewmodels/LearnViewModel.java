@@ -7,7 +7,7 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
 import com.csu.wordtutor.model.Word;
-import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 
 import java.util.List;
 
@@ -46,20 +46,48 @@ public class LearnViewModel extends BaseObservable {
         return mAnswerVisibility;
     }
 
+    @Bindable
+    public String getIndex() {
+        return String.valueOf(mIndex);
+    }
+
+    @Bindable
+    public String getSize() {
+        return String.valueOf(mWordList.size());
+    }
+
+    public void setIndex(int index) {
+        mIndex = index;
+        notifyChange();
+    }
+
     public void onAnswerClick() {
         setAnswerVisibility(View.VISIBLE);
     }
 
-    public void onNextClick() {
-        if (mIndex < mWordList.size() - 1) {
-            mIndex++;
+    public void onLastClick() {
+        if (mIndex > 0) {
+            setIndex(mIndex - 1);
             setAnswerVisibility(View.INVISIBLE);
         } else {
-            final QMUITipDialog tipDialog = new QMUITipDialog.Builder(mContext)
-                    .setIconType(QMUITipDialog.Builder.ICON_TYPE_INFO)
-                    .setTipWord("已经是最后一个了")
-                    .create();
-            tipDialog.show();
+            new QMUIDialog.MessageDialogBuilder(mContext)
+                    .setTitle("注意")
+                    .setMessage("当前是第一个")
+                    .addAction("确定", (dialog, index) -> dialog.dismiss())
+                    .show();
+        }
+    }
+
+    public void onNextClick() {
+        if (mIndex < mWordList.size() - 1) {
+            setIndex(mIndex + 1);
+            setAnswerVisibility(View.INVISIBLE);
+        } else {
+            new QMUIDialog.MessageDialogBuilder(mContext)
+                    .setTitle("注意")
+                    .setMessage("已经是最后一个了")
+                    .addAction("确定", (dialog, index) -> dialog.dismiss())
+                    .show();
         }
     }
 }

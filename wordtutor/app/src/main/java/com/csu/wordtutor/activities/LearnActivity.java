@@ -103,7 +103,7 @@ public class LearnActivity extends Activity {
                         if (wordList.isEmpty()) {
                             new QMUIDialog.MessageDialogBuilder(LearnActivity.this)
                                     .setTitle("当前词库已经全部学习完了")
-                                    .setMessage("是否进入词库管理导入新的单词")
+                                    .setMessage("是否添加新的单词")
                                     .addAction("取消", new QMUIDialogAction.ActionListener() {
                                         @Override
                                         public void onClick(QMUIDialog dialog, int index) {
@@ -114,7 +114,7 @@ public class LearnActivity extends Activity {
                                     .addAction("确定", new QMUIDialogAction.ActionListener() {
                                         @Override
                                         public void onClick(QMUIDialog dialog, int index) {
-                                            Intent intent = new Intent(LearnActivity.this, LexiconManageActivity.class);
+                                            Intent intent = new Intent(LearnActivity.this, AddWordActivity.class);
                                             startActivity(intent);
                                             LearnActivity.this.finish();
                                             dialog.dismiss();

@@ -3,10 +3,13 @@ package com.csu.wordtutor.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity
-public class Word {
+import java.io.Serializable;
+
+@Entity(indices = @Index(value = "english", unique = true))
+public class Word implements Serializable {
 
     @Ignore
     public static final long DEFAULT_UNIT_ID = -1; //默认的单元id，这个id的单词表示还没有划分单元

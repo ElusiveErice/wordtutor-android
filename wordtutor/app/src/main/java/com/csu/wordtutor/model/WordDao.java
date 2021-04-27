@@ -14,7 +14,7 @@ public interface WordDao {
     void insertWord(Word word);
 
     @Insert
-    void insertWordList(List<Word> wordList);
+    List<Long> insertWordList(List<Word> wordList);
 
     @Update
     int update(Word word);
@@ -31,6 +31,9 @@ public interface WordDao {
     @Query("SELECT * FROM WORD ORDER BY ID ASC")
     List<Word> getAll();
 
+    @Query("SELECT * FROM WORD where english like :text or chinese like :text or unit_id like :text ORDER BY ID ASC")
+    List<Word> getAllByText(String text);
+
     @Query("SELECT * FROM WORD where unit_id=:unitId ORDER BY ID ASC limit :count")
     List<Word> getUnitList(long unitId, int count);
 
@@ -39,4 +42,7 @@ public interface WordDao {
 
     @Query("SELECT * FROM Word where new_word=1")
     List<Word> getNewWord();
+
+    @Query("SELECT * FROM Word where english=:english")
+    Word getWordByEnglish(String english);
 }

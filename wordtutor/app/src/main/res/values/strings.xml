@@ -11,7 +11,7 @@
     <string name="answer">答案</string>
     <string name="next">下一个</string>
     <string name="add">添加</string>
-    <string name="import_in">导入</string>
+    <string name="import_in">从本地导入</string>
     <string name="lexicon_info">词库信息</string>
     <string name="word_sum">单词总数</string>
     <string name="default_zero">0</string>
@@ -22,4 +22,15 @@
     <string name="add_new_word">添加生词</string>
     <string name="new_word">生词</string>
     <string name="cancel_new_word">取消生词</string>
+    <string name="word_manage">单词管理</string>
+    <string name="submit">提交</string>
+    <string name="insert_new_word">插入生词本</string>
+    <string name="update_word">修改单词</string>
+    <string name="new_word_book">生词本</string>
+    <string name="insert_words">新增单词</string>
+    <string name="manage_lexicon">管理词库</string>
+    <string name="card_record">打卡记录</string>
+    <string name="unit">单元</string>
+    <string name="setting">修改</string>
+    <string name="select">查找</string>
 </resources>

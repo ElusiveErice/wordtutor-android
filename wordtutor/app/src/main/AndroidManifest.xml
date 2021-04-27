@@ -38,15 +38,8 @@
         </activity>
 
         <activity
-            android:name=".activities.LexiconManageActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-
-        <activity
             android:name=".activities.AddWordActivity"
             android:label="@string/add_word"
-            android:parentActivityName=".activities.LexiconManageActivity"
             android:screenOrientation="portrait">
 
         </activity>
@@ -54,7 +47,13 @@
         <activity
             android:name=".activities.LexiconActivity"
             android:label="@string/check_lexicon"
-            android:parentActivityName=".activities.LexiconManageActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name=".activities.UpdateWordActivity"
+            android:label="@string/update_word"
             android:screenOrientation="portrait">
 
         </activity>

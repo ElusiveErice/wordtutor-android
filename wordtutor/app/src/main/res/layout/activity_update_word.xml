@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout>
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.csu.wordtutor.viewmodels.AddWordViewModel" />
+            type="com.csu.wordtutor.viewmodels.UpdateWordViewModel" />
     </data>
 
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-            android:id="@+id/bt_import_in"
-            style="@style/simple_button3"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/import_in" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:gravity="center"
+            android:layout_margin="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -37,17 +29,15 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:inputType="textEmailAddress"
                 android:minEms="10"
                 android:text="@={viewModel.english}" />
         </LinearLayout>
 
-
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_margin="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -59,15 +49,37 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:minEms="10"
                 android:text="@={viewModel.chinese}" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minEms="8"
+                android:text="@string/insert_new_word" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{viewModel.newWord}"
+                android:minEms="4"
+                android:onClick="@{()->viewModel.onNewWordClick()}" />
+        </LinearLayout>
+
         <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-            android:id="@+id/bt_add"
             style="@style/simple_button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add" />
+            android:onClick="@{()->viewModel.onSubmitClick()}"
+            android:text="@string/submit" />
+
     </LinearLayout>
 </layout>

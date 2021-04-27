@@ -19,6 +19,9 @@ public interface WordDao {
     @Update
     void update(Word word);
 
+    @Update
+    void updateList(List<Word> wordList);
+
     @Delete
     void delete(Word word);
 
@@ -27,4 +30,10 @@ public interface WordDao {
 
     @Query("SELECT * FROM WORD ORDER BY ID ASC")
     List<Word> getAll();
+
+    @Query("SELECT * FROM WORD where unit_id=:unitId ORDER BY ID ASC limit :count")
+    List<Word> getUnitList(long unitId, int count);
+
+    @Query("SELECT * FROM WORD where unit_id=:unitId ORDER BY ID ASC")
+    List<Word> getUnitList(long unitId);
 }

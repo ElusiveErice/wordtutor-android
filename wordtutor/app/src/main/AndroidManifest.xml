@@ -15,31 +15,47 @@
         android:supportsRtl="true"
         android:theme="@style/QMUI.Compat">
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.HomeActivity">
+
+        <activity
+            android:name=".activities.HomeActivity"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".activities.LearnActivity">
+
+        <activity
+            android:name=".activities.LearnActivity"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".activities.LexiconManageActivity">
+
+        <activity
+            android:name=".activities.LexiconManageActivity"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".activities.AddWordActivity"
+
+        <activity
+            android:name=".activities.AddWordActivity"
             android:label="@string/add_word"
-            android:parentActivityName=".activities.LexiconManageActivity">
+            android:parentActivityName=".activities.LexiconManageActivity"
+            android:screenOrientation="portrait">
 
         </activity>
+
         <activity
             android:name=".activities.LexiconActivity"
             android:label="@string/check_lexicon"
-            android:parentActivityName=".activities.LexiconManageActivity">
+            android:parentActivityName=".activities.LexiconManageActivity"
+            android:screenOrientation="portrait">
 
         </activity>
     </application>

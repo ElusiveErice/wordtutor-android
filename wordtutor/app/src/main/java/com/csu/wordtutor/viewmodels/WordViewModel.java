@@ -29,4 +29,9 @@ public class WordViewModel extends BaseObservable {
     public String getIndex() {
         return String.valueOf(index);
     }
+
+    @Bindable
+    public String getUnitId() {
+        return String.valueOf(word.getUnitId());
+    }
 }

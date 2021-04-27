@@ -6,12 +6,16 @@ import android.view.View;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
+import com.csu.wordtutor.activities.LearnActivity;
 import com.csu.wordtutor.model.Word;
+import com.csu.wordtutor.utils.SharedHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 
 import java.util.List;
 
 public class LearnViewModel extends BaseObservable {
+
+    public static final int INIT_INDEX = 0;
 
     private final List<Word> mWordList;
     private int mAnswerVisibility;
@@ -23,12 +27,17 @@ public class LearnViewModel extends BaseObservable {
         mContext = context;
         mWordList = wordList;
         mAnswerVisibility = View.INVISIBLE;
-        mIndex = 0;
+        mIndex = INIT_INDEX;
     }
 
     public void setAnswerVisibility(int answerVisibility) {
         this.mAnswerVisibility = answerVisibility;
         notifyChange();
+    }
+
+    @Bindable
+    public long getUnitId() {
+        return mWordList.get(mIndex).getUnitId();
     }
 
     @Bindable
@@ -47,18 +56,23 @@ public class LearnViewModel extends BaseObservable {
     }
 
     @Bindable
-    public String getIndex() {
-        return String.valueOf(mIndex);
+    public int getIndex() {
+        return mIndex;
     }
 
     @Bindable
-    public String getSize() {
-        return String.valueOf(mWordList.size());
+    public int getSize() {
+        return mWordList.size();
+    }
+
+    public String getUnitTitle() {
+        return "Unit ";
     }
 
     public void setIndex(int index) {
         mIndex = index;
         notifyChange();
+        new SharedHelper(mContext).saveIndex(index);
     }
 
     public void onAnswerClick() {
@@ -86,7 +100,11 @@ public class LearnViewModel extends BaseObservable {
             new QMUIDialog.MessageDialogBuilder(mContext)
                     .setTitle("注意")
                     .setMessage("已经是最后一个了")
-                    .addAction("确定", (dialog, index) -> dialog.dismiss())
+                    .addAction("还要学一会", (dialog, index) -> dialog.dismiss())
+                    .addAction("今天学完了", (dialog, index) -> {
+                        dialog.dismiss();
+                        ((LearnActivity) mContext).handleFinishLearn();
+                    })
                     .show();
         }
     }

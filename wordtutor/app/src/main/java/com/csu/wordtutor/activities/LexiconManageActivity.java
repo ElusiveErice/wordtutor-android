@@ -14,9 +14,12 @@ import androidx.databinding.DataBindingUtil;
 
 import com.csu.wordtutor.R;
 import com.csu.wordtutor.databinding.ActivityLexiconManageBinding;
+import com.csu.wordtutor.model.Unit;
+import com.csu.wordtutor.model.UnitDao;
 import com.csu.wordtutor.model.Word;
 import com.csu.wordtutor.model.WordDao;
 import com.csu.wordtutor.model.WordRoomDatabase;
+import com.csu.wordtutor.mysuper.ObserverNext;
 import com.csu.wordtutor.utils.FileUtils;
 import com.csu.wordtutor.utils.PermissionManage;
 import com.csu.wordtutor.viewmodels.LexiconManageViewModel;
@@ -40,6 +43,7 @@ public class LexiconManageActivity extends Activity {
     private static final int READ_REQUEST_CODE = 1;
 
     private WordDao mWordDao;
+    private UnitDao mUnitDao;
     private LexiconManageViewModel mLexiconViewModel;
 
     @Override
@@ -49,6 +53,7 @@ public class LexiconManageActivity extends Activity {
 
         WordRoomDatabase db = WordRoomDatabase.getInstance(this);
         mWordDao = db.getWordDao();
+        mUnitDao = db.getUnitDao();
 
 
         ActivityLexiconManageBinding binding =
@@ -77,36 +82,30 @@ public class LexiconManageActivity extends Activity {
                 Uri uri = resultData.getData();
                 List<Word> wordList =
                         FileUtils.getLexiconFromExcel(FileUtils.uriToFile(uri, this));
-
-                Observable.create((ObservableOnSubscribe<String>) e -> {
-                    mWordDao.insertWordList(wordList);
-                    e.onNext("done");
-                }).subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<String>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-
-                            }
-
-                            @Override
-                            public void onNext(String s) {
-                                Log.i(TAG, "导入成功");
-                                update();
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                Log.i(TAG, "导入完成");
-                            }
-                        });
+                handleInsertWords(wordList);
             }
         }
+    }
+
+
+    /**
+     * 将新的词库插入到表里
+     *
+     * @param wordList
+     */
+    public void handleInsertWords(List<Word> wordList) {
+        Observable.create((ObservableOnSubscribe<String>) e -> {
+            mWordDao.insertWordList(wordList);
+            e.onNext("done");
+        }).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ObserverNext<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        Log.i(TAG, "导入成功");
+                        update();
+                    }
+                });
     }
 
     public void onCheckClick() {

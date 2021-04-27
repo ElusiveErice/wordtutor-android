@@ -6,10 +6,11 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Word.class, Record.class}, version = 1, exportSchema = false)
+@Database(entities = {Word.class, Unit.class}, version = 1, exportSchema = false)
 public abstract class WordRoomDatabase extends RoomDatabase {
     public abstract WordDao getWordDao();
-    public abstract RecordDao getRecordDao();
+
+    public abstract UnitDao getUnitDao();
 
     private static WordRoomDatabase INSTANCE;
 

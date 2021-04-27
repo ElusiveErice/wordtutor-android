@@ -23,11 +23,15 @@ public class Word {
     @ColumnInfo(name = "unit_id")
     private long unitId;
 
+    @ColumnInfo(name = "new_word")
+    private boolean newWord;
+
 
     public Word(String english, String chinese) {
         this.english = english;
         this.chinese = chinese;
         this.unitId = DEFAULT_UNIT_ID;
+        this.newWord = false;
     }
 
     public long getUnitId() {
@@ -60,5 +64,13 @@ public class Word {
 
     public void setChinese(String chinese) {
         this.chinese = chinese;
+    }
+
+    public boolean isNewWord() {
+        return newWord;
+    }
+
+    public void setNewWord(boolean newWord) {
+        this.newWord = newWord;
     }
 }

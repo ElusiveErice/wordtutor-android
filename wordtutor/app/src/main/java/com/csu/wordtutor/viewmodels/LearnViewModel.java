@@ -1,15 +1,22 @@
 package com.csu.wordtutor.viewmodels;
 
 import android.content.Context;
+import android.opengl.Visibility;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
+import com.csu.wordtutor.R;
 import com.csu.wordtutor.activities.LearnActivity;
 import com.csu.wordtutor.model.Word;
 import com.csu.wordtutor.utils.SharedHelper;
+import com.qmuiteam.qmui.skin.QMUISkinManager;
+import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.popup.QMUIPopups;
+import com.qmuiteam.qmui.widget.popup.QMUIQuickAction;
 
 import java.util.List;
 
@@ -65,6 +72,11 @@ public class LearnViewModel extends BaseObservable {
         return mWordList.size();
     }
 
+    @Bindable
+    public boolean isNewWord() {
+        return mWordList.get(mIndex).isNewWord();
+    }
+
     public String getUnitTitle() {
         return "Unit ";
     }
@@ -103,9 +115,20 @@ public class LearnViewModel extends BaseObservable {
                     .addAction("还要学一会", (dialog, index) -> dialog.dismiss())
                     .addAction("今天学完了", (dialog, index) -> {
                         dialog.dismiss();
-                        ((LearnActivity) mContext).handleFinishLearn();
+                        if (mContext instanceof LearnActivity) {
+                            ((LearnActivity) mContext).handleFinishLearn();
+                        }
                     })
                     .show();
+        }
+    }
+
+    public void onNewWordClick() {
+        Word word = mWordList.get(mIndex);
+        word.setNewWord(!word.isNewWord());
+        notifyChange();
+        if (mContext instanceof LearnActivity) {
+            ((LearnActivity) mContext).handleAddNewWord(word);
         }
     }
 }

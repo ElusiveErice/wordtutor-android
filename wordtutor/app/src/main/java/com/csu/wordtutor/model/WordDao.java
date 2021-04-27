@@ -17,7 +17,7 @@ public interface WordDao {
     void insertWordList(List<Word> wordList);
 
     @Update
-    void update(Word word);
+    int update(Word word);
 
     @Update
     void updateList(List<Word> wordList);
@@ -36,4 +36,7 @@ public interface WordDao {
 
     @Query("SELECT * FROM WORD where unit_id=:unitId ORDER BY ID ASC")
     List<Word> getUnitList(long unitId);
+
+    @Query("SELECT * FROM Word where new_word=1")
+    List<Word> getNewWord();
 }

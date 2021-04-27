@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/ll_bottom"
             android:layout_below="@+id/ll_index"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
@@ -63,6 +63,15 @@
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:visibility="@{viewModel.answerVisibility}" />
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:checked="@{viewModel.newWord}"
+                android:onClick="@{()->viewModel.onNewWordClick()}"
+                android:textOff="@string/add_new_word"
+                android:textOn="@string/cancel_new_word" />
         </LinearLayout>
 
         <LinearLayout

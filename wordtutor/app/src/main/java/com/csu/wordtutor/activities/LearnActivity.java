@@ -3,8 +3,8 @@ package com.csu.wordtutor.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -61,8 +61,9 @@ public class LearnActivity extends Activity {
 
     /**
      * 加载上次学习到的单元的单词
+     *
      * @param unitId 上次学习到的单元id
-     * @param index 上次学习的单词索引
+     * @param index  上次学习的单词索引
      */
     private void load_unit(long unitId, int index) {
         Observable.create((ObservableOnSubscribe<List<Word>>) e -> {
@@ -134,6 +135,7 @@ public class LearnActivity extends Activity {
     /**
      * 将这一单元的单词的单元进行更新
      * 创建新的单元，并对赋值给单词的单元属性
+     *
      * @param wordList 要进行操作的单词列表
      */
     private void updateNewUnit(List<Word> wordList) {
@@ -158,5 +160,26 @@ public class LearnActivity extends Activity {
         mSharedHelper.saveUnitId(Word.DEFAULT_UNIT_ID);
         mSharedHelper.saveIndex(LearnViewModel.INIT_INDEX);
         this.finish();
+    }
+
+    /**
+     * 将单词添加到生词本中
+     *
+     * @param word 要添加到生词本中的单词
+     */
+    public void handleAddNewWord(Word word) {
+        Observable.create((ObservableOnSubscribe<Integer>) e -> {
+            e.onNext(mWordDao.update(word));
+        }).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ObserverNext<Integer>() {
+                    @Override
+                    public void onNext(Integer integer) {
+                        if (integer > 0) {
+                            Toast.makeText(LearnActivity.this, "更新成功", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    }
+                });
     }
 }

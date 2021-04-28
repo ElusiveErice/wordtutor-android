@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -15,12 +18,17 @@ import com.csu.wordtutor.databinding.ActivityAddWordBinding;
 import com.csu.wordtutor.model.Word;
 import com.csu.wordtutor.model.WordDao;
 import com.csu.wordtutor.model.WordRoomDatabase;
+import com.csu.wordtutor.mysuper.ObserverComplete;
 import com.csu.wordtutor.mysuper.ObserverNext;
 import com.csu.wordtutor.utils.FileUtils;
 import com.csu.wordtutor.utils.PermissionManage;
 import com.csu.wordtutor.viewmodels.AddWordViewModel;
+import com.qmuiteam.qmui.widget.QMUIProgressBar;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
+import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -36,9 +44,15 @@ public class AddWordActivity extends AppCompatActivity {
     private static final int EXISTED = 0;
     private static final int ENGLISH_NULL = 2;
     private static final int CHINESE_NULL = 3;
+
+    private static final int NEXT = 0x11;
+    private static final int INIT = 0x12;
+
     private WordDao mWordDao;
     private AddWordViewModel mAddWordViewModel;
-
+    private QMUIProgressBar mPBImport;
+    private ImportHandler mHandler;
+    private QMUIRoundButton mBTImport;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,8 +65,17 @@ public class AddWordActivity extends AppCompatActivity {
         mAddWordViewModel = new AddWordViewModel();
         binding.setViewModel(mAddWordViewModel);
 
+        //进度条管理
+        mPBImport = binding.pbImport;
+        mPBImport.setQMUIProgressBarTextGenerator((progressBar, value, maxValue) -> value + "/" + maxValue);
+
+        //导入按钮管理
+        mBTImport = binding.btImportIn;
+        mBTImport.setOnClickListener(v -> onImportInClick());
+
         binding.btAdd.setOnClickListener(v -> onAddClick());
-        binding.btImportIn.setOnClickListener(v -> onImportInClick());
+
+        mHandler = new ImportHandler(mPBImport, mBTImport);
     }
 
     public void onAddClick() {
@@ -104,6 +127,10 @@ public class AddWordActivity extends AppCompatActivity {
             message = "已经存在该单词了";
             mAddWordViewModel.setChinese("");
             mAddWordViewModel.setEnglish("");
+        } else if (result == SUCCESS) {
+            message = "添加成功";
+            mAddWordViewModel.setChinese("");
+            mAddWordViewModel.setEnglish("");
         }
         new QMUIDialog.MessageDialogBuilder(this)
                 .setTitle(message)
@@ -128,27 +155,63 @@ public class AddWordActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 将新的词库插入到表里
-     *
-     * @param wordList
-     */
     public void handleInsertWords(List<Word> wordList) {
         Observable.create((ObservableOnSubscribe<Integer>) e -> {
-            List<Long> longList = mWordDao.insertWordList(wordList);
-            e.onNext(longList.size());
+            Message init_message = new Message();
+            init_message.what = INIT;
+            init_message.arg1 = wordList.size();
+            mHandler.sendMessage(init_message);
+            int i = 0;
+            for (Word word : wordList) {
+                i++;
+                Message message = new Message();
+                message.what = NEXT;
+                message.arg1 = i;
+                mHandler.sendMessage(message);
+
+                if (mWordDao.getWordByEnglish(word.getEnglish()) == null) {
+                    mWordDao.insertWord(word);
+                }
+            }
+            e.onComplete();
         }).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ObserverNext<Integer>() {
+                .subscribe(new ObserverComplete<Integer>() {
                     @Override
-                    public void onNext(Integer integer) {
-                        new QMUIDialog.MessageDialogBuilder(AddWordActivity.this)
-                                .setTitle("导入了" + integer + "个单词")
-                                .addAction("确定", (dialog, index) -> dialog.dismiss())
-                                .show();
+                    public void onComplete() {
+                        mBTImport.setVisibility(View.VISIBLE);
                     }
                 });
     }
 
 
+    private static class ImportHandler extends Handler {
+
+        private final WeakReference<QMUIProgressBar> weakReferencePB;
+        private final WeakReference<QMUIRoundButton> weakReferenceBT;
+
+        public ImportHandler(QMUIProgressBar qmuiProgressBar, QMUIRoundButton qmuiRoundButton) {
+            super();
+            weakReferencePB = new WeakReference<>(qmuiProgressBar);
+            weakReferenceBT = new WeakReference<>(qmuiRoundButton);
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            QMUIProgressBar qmuiProgressBar = weakReferencePB.get();
+            QMUIRoundButton qmuiRoundButton = weakReferenceBT.get();
+
+            switch (msg.what) {
+                case INIT:
+                    qmuiProgressBar.setVisibility(View.VISIBLE);
+                    qmuiRoundButton.setVisibility(View.INVISIBLE);
+                    qmuiProgressBar.setMaxValue(msg.arg1);
+                    break;
+                case NEXT:
+                    qmuiProgressBar.setProgress(msg.arg1);
+                    break;
+            }
+        }
+    }
 }

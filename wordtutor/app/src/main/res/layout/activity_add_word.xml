@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -13,6 +14,17 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
+
+        <com.qmuiteam.qmui.widget.QMUIProgressBar
+            android:id="@+id/pb_import"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_margin="30dp"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            app:qmui_background_color="@color/qmui_config_color_gray_8"
+            app:qmui_progress_color="@color/blue"
+            app:qmui_type="type_rect" />
 
         <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
             android:id="@+id/bt_import_in"

@@ -31,7 +31,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:minEms">10</item>
         <item name="android:textColor">@color/qmui_config_color_gray_1</item>
-        <item name="qmui_backgroundColor">@color/selector_text_2</item>
+        <item name="qmui_backgroundColor">@color/selector_text_3</item>
     </style>
 
     <style name="simple_button4" parent="simple_button">

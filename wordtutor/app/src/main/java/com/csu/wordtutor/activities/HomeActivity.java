@@ -12,7 +12,7 @@ public class HomeActivity extends SimpleActivity {
     private QMUIRoundButton mBTManageLexicon;
     private QMUIRoundButton mBTAddWord;
     private QMUIRoundButton mBTNewWordBook;
-    private QMUIRoundButton mBTCardRecord;
+    private QMUIRoundButton mBTRecite;
 
 
     @Override
@@ -26,7 +26,7 @@ public class HomeActivity extends SimpleActivity {
         mBTManageLexicon = findViewById(R.id.bt_manage_lexicon);
         mBTAddWord = findViewById(R.id.bt_add_word);
         mBTNewWordBook = findViewById(R.id.bt_new_word_book);
-        mBTCardRecord = findViewById(R.id.bt_card_record);
+        mBTRecite = findViewById(R.id.bt_recite);
     }
 
     @Override
@@ -44,10 +44,12 @@ public class HomeActivity extends SimpleActivity {
             startActivity(intent);
         });
         mBTNewWordBook.setOnClickListener(v -> {
-
+            Intent intent = new Intent(HomeActivity.this, NewWordBookActivity.class);
+            startActivity(intent);
         });
-        mBTCardRecord.setOnClickListener(v -> {
-
+        mBTRecite.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ReciteActivity.class);
+            startActivity(intent);
         });
     }
 }

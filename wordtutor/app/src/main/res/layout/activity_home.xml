@@ -48,10 +48,10 @@
             android:text="@string/new_word_book" />
 
         <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-            android:id="@+id/bt_card_record"
+            android:id="@+id/bt_recite"
             style="@style/simple_button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/card_record" />
+            android:text="@string/recite" />
     </LinearLayout>
 </LinearLayout>

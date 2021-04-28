@@ -33,4 +33,7 @@
     <string name="unit">单元</string>
     <string name="setting">修改</string>
     <string name="select">查找</string>
+    <string name="remove">移除</string>
+    <string name="recite">复习</string>
+    <string name="select_unit_of_recite">选择要复习的单元</string>
 </resources>

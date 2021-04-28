@@ -8,7 +8,7 @@
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher2"
+        android:icon="@mipmap/ic_launcher3"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -54,6 +54,23 @@
         <activity
             android:name=".activities.UpdateWordActivity"
             android:label="@string/update_word"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".activities.NewWordBookActivity"
+            android:label="@string/new_word_book"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".activities.ReciteActivity"
+            android:label="@string/recite"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".activities.ReLearnActivity"
             android:screenOrientation="portrait">
 
         </activity>

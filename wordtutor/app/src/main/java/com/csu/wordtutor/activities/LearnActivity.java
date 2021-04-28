@@ -104,21 +104,15 @@ public class LearnActivity extends Activity {
                             new QMUIDialog.MessageDialogBuilder(LearnActivity.this)
                                     .setTitle("当前词库已经全部学习完了")
                                     .setMessage("是否添加新的单词")
-                                    .addAction("取消", new QMUIDialogAction.ActionListener() {
-                                        @Override
-                                        public void onClick(QMUIDialog dialog, int index) {
-                                            LearnActivity.this.finish();
-                                            dialog.dismiss();
-                                        }
+                                    .addAction("取消", (dialog, index) -> {
+                                        LearnActivity.this.finish();
+                                        dialog.dismiss();
                                     })
-                                    .addAction("确定", new QMUIDialogAction.ActionListener() {
-                                        @Override
-                                        public void onClick(QMUIDialog dialog, int index) {
-                                            Intent intent = new Intent(LearnActivity.this, AddWordActivity.class);
-                                            startActivity(intent);
-                                            LearnActivity.this.finish();
-                                            dialog.dismiss();
-                                        }
+                                    .addAction("确定", (dialog, index) -> {
+                                        Intent intent = new Intent(LearnActivity.this, AddWordActivity.class);
+                                        startActivity(intent);
+                                        LearnActivity.this.finish();
+                                        dialog.dismiss();
                                     })
                                     .show();
                         } else {

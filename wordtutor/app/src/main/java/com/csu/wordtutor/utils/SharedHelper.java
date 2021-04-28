@@ -8,11 +8,37 @@ import com.csu.wordtutor.viewmodels.LearnViewModel;
 
 public class SharedHelper {
     public static final int DEFAULT_UNIT_SIZE = 30;
+    public static final String DEFAULT_APHORISM = "路漫漫其修远兮吾将上下而求索";
+    public static final int DEFAULT_USE_COUNT = 0;
 
     private final Context mContext;
 
     public SharedHelper(Context context) {
         mContext = context;
+    }
+
+    public void saveUseCount(int useCount) {
+        SharedPreferences sp = mContext.getSharedPreferences("use_count", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt("use_count", useCount);
+        editor.apply();
+    }
+
+    public int readUseCount() {
+        SharedPreferences sp = mContext.getSharedPreferences("use_count", Context.MODE_PRIVATE);
+        return sp.getInt("use_count", DEFAULT_USE_COUNT);
+    }
+
+    public void saveAphorism(String aphorism) {
+        SharedPreferences sp = mContext.getSharedPreferences("aphorism", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("aphorism", aphorism);
+        editor.apply();
+    }
+
+    public String readAphorism() {
+        SharedPreferences sp = mContext.getSharedPreferences("aphorism", Context.MODE_PRIVATE);
+        return sp.getString("aphorism", DEFAULT_APHORISM);
     }
 
     public void saveUnitSize(int unitSize) {
